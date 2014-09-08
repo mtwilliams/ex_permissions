@@ -38,4 +38,60 @@ defmodule ExPermissions.User do
       import ExPermissions.User
     end
   end
+
+  def is?(user, flag), do: ExPermissions.User.Flags.is?(user, flag)
+  def is!(user, flag), do: ExPermissions.User.Flags.is!(user, flag)
+  def not?(user, flag), do: ExPermissions.User.Flags.not?(user, flag)
+  def not!(user, flag), do: ExPermissions.User.Flags.not!(user, flag)
+end
+
+defprotocol ExPermissions.User.Flags do
+  @moduledoc """
+  """
+
+  @fallback_to_any true
+
+  @doc """
+  """
+  def is?(user, flag)
+
+  @doc """
+  """
+  def is!(user, flag)
+
+  @doc """
+  """
+  def not?(user, flag)
+
+  @doc """
+  """
+  def not!(user, flag)
+end
+
+defmodule ExPermissions.User.Is do
+  @moduledoc """
+  """
+
+  defexception [:message]
+  def exception([flag: flag]), do: %__MODULE__{message: "User is #{flag}!"}
+end
+
+defmodule ExPermissions.User.IsNot do
+  @moduledoc """
+  """
+
+  defexception [:message]
+  def exception([flag: flag]), do: %__MODULE__{message: "User is not #{flag}!"}
+end
+
+defimpl ExPermissions.User.Flags, for: Any do
+  def is?(_user, _flag), do: false
+  def is!(user, flag) do
+    ExPermissions.User.Flags.is?(user, flag) || raise ExPermissions.User.IsNot, flag: flag
+  end
+
+  def not?(_user, _flag), do: true
+  def not!(user, flag) do
+    ExPermissions.User.Flags.not?(user, flag) || raise ExPermissions.User.Is, flag: flag
+  end
 end
