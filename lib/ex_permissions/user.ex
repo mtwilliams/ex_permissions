@@ -85,12 +85,12 @@ defmodule ExPermissions.User.IsNot do
 end
 
 defimpl ExPermissions.User.Flags, for: Any do
-  def is?(_user, _flag), do: false
+  def is?(_user, _flag), do: false # just break?
   def is!(user, flag) do
     ExPermissions.User.Flags.is?(user, flag) || raise ExPermissions.User.IsNot, flag: flag
   end
 
-  def not?(_user, _flag), do: true
+  def not?(_user, _flag), do: true # just break?
   def not!(user, flag) do
     ExPermissions.User.Flags.not?(user, flag) || raise ExPermissions.User.Is, flag: flag
   end
