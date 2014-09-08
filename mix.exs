@@ -19,9 +19,7 @@ defmodule ExPermissions.Mixfile do
   end
 
   def application do
-    [ mod: { ExPermissions, [] },
-      applications: []
-    ]
+    [applications: []]
   end
 
   def version do
