@@ -36,6 +36,13 @@ user |> ExPermissions.User.is! :verified
 user |> ExPermissions.User.not! :banned
 ```
 
+Alternatively you can `use ExPermissions.User` in the relevant modules and:
+
+```elixir
+user |> App.User.is! :verified
+user |> App.User.not! :banned
+```
+
 How do I contribute?
 --------------------
 
