@@ -1,3 +1,3 @@
-defmodule ExPermissionsTest do
+defmodule ExPermissions.Test do
   use ExUnit.Case
 end
