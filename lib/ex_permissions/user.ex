@@ -71,6 +71,14 @@ defprotocol ExPermissions.User.Flags do
   def not!(user, flag)
 end
 
+defmodule ExPermissions.User.CannotTell do
+  @moduledoc """
+  """
+
+  defexception [:message]
+  def exception([flag: flag]), do: %__MODULE__{message: "Can't tell if user is #{flag} or not!"}
+end
+
 defmodule ExPermissions.User.Is do
   @moduledoc """
   """
@@ -88,12 +96,16 @@ defmodule ExPermissions.User.IsNot do
 end
 
 defimpl ExPermissions.User.Flags, for: Any do
-  def is?(_user, _flag), do: false # just break?
+  def is?(user, flag) do
+    raise ExPermissions.User.CannotTell, flag: flag
+  end
   def is!(user, flag) do
     ExPermissions.User.Flags.is?(user, flag) || raise ExPermissions.User.IsNot, flag: flag
   end
 
-  def not?(_user, _flag), do: true # just break?
+  def not?(user, flag) do
+    raise ExPermissions.User.CannotTell, flag: flag
+  end
   def not!(user, flag) do
     ExPermissions.User.Flags.not?(user, flag) || raise ExPermissions.User.Is, flag: flag
   end

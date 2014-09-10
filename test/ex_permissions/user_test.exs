@@ -9,14 +9,17 @@ defmodule ExPermissions.User.Test do
   end
 
   test "passing nil instead of a proper 'object'" do
-    assert (nil |> ExPermissions.User.is? :foo) == false
-    assert_raise ExPermissions.User.IsNot, fn -> nil |> ExPermissions.User.is! :foo end
-    assert (nil |> ExPermissions.User.not? :bar) == true
+    assert_raise ExPermissions.User.CannotTell, fn -> nil |> ExPermissions.User.is? :foo end
+    assert_raise ExPermissions.User.CannotTell, fn -> nil |> ExPermissions.User.not? :foo end
+    assert_raise ExPermissions.User.CannotTell, fn -> nil |> ExPermissions.User.is? :bar end
+    assert_raise ExPermissions.User.CannotTell, fn -> nil |> ExPermissions.User.not? :bar end
   end
 
   test "user without implementations(s) has no flags" do
-    assert (%UserWithoutImplementations{} |> UserWithoutImplementations.is? :foo) == false
-    assert_raise ExPermissions.User.IsNot, fn -> %UserWithoutImplementations{} |> UserWithoutImplementations.is! :foo end
-    assert (%UserWithoutImplementations{} |> UserWithoutImplementations.not? :bar) == true
+    user = %UserWithoutImplementations{}
+    assert_raise ExPermissions.User.CannotTell, fn -> user |> UserWithoutImplementations.is? :foo end
+    assert_raise ExPermissions.User.CannotTell, fn -> user |> UserWithoutImplementations.not? :foo end
+    assert_raise ExPermissions.User.CannotTell, fn -> user |> UserWithoutImplementations.is? :bar end
+    assert_raise ExPermissions.User.CannotTell, fn -> user |> UserWithoutImplementations.not? :bar end
   end
 end
