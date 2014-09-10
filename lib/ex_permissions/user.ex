@@ -33,9 +33,12 @@ defmodule ExPermissions.User do
   @moduledoc """
   """
 
-  def __using__(_opts \\ []) do
+  defmacro __using__(_opts \\ []) do
     quote do
-      import ExPermissions.User
+      def is?(user, flag), do: ExPermissions.User.is?(user, flag)
+      def is!(user, flag), do: ExPermissions.User.is!(user, flag)
+      def not?(user, flag), do: ExPermissions.User.not?(user, flag)
+      def not!(user, flag), do: ExPermissions.User.not!(user, flag)
     end
   end
 

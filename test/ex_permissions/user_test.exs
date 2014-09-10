@@ -15,8 +15,8 @@ defmodule ExPermissions.User.Test do
   end
 
   test "user without implementations(s) has no flags" do
-    assert (%UserWithoutImplementations{} |> ExPermissions.User.is? :foo) == false
-    assert_raise ExPermissions.User.IsNot, fn -> %UserWithoutImplementations{} |> ExPermissions.User.is! :foo end
-    assert (%UserWithoutImplementations{} |> ExPermissions.User.not? :bar) == true
+    assert (%UserWithoutImplementations{} |> UserWithoutImplementations.is? :foo) == false
+    assert_raise ExPermissions.User.IsNot, fn -> %UserWithoutImplementations{} |> UserWithoutImplementations.is! :foo end
+    assert (%UserWithoutImplementations{} |> UserWithoutImplementations.not? :bar) == true
   end
 end
